@@ -1,110 +1,205 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Redmine-net-api by zapadi</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Official .NET API client for Redmine - Easy integration, full REST support.">
+  <title>Redmine .NET API</title>
+  <link rel="icon" href="favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --rm-primary: #d32f2f; /* Redmine red */
+      --rm-secondary: #424242; /* dark gray */
+      --rm-light-bg: #f5f5f5;
+      --rm-dark-bg: #1e1e1e;
+      --rm-dark-text: #e0e0e0;
+    }
+    html {
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--rm-primary), var(--rm-secondary));
+      color: white;
+      padding: 100px 0;
+      transition: background 0.5s ease;
+    }
+    .section-title {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    section {
+      background-color: white;
+      transition: background-color 0.5s ease;
+    }
+    .bg-light {
+      background-color: var(--rm-light-bg) !important;
+      transition: background-color 0.5s ease;
+    }
+    footer {
+      background-color: var(--rm-light-bg);
+      padding: 2rem 0;
+      transition: background-color 0.5s ease;
+    }
+    .btn-primary {
+      background-color: var(--rm-primary);
+      border-color: var(--rm-primary);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: var(--rm-secondary);
+      border-color: var(--rm-secondary);
+    }
+    .toggle-theme {
+      cursor: pointer;
+    }
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/zapadi/redmine-net-api">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/zapadi/redmine-net-api/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/zapadi/redmine-net-api/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Redmine-net-api</h1>
-          <p>redmine-net-api</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/zapadi">zapadi</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
-<a id="redmine-net-api" class="anchor" href="#redmine-net-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>redmine-net-api</h1>
-
-<p>redmine-net-api is a library for communicating with a Redmine project management application</p>
-
-<ul>
-<li>Uses <a href="http://www.redmine.org/projects/redmine/wiki/Rest_api/">Redmine's REST API.</a>
-</li>
-<li>Supports both XML and JSON(requires .NET Framework 3.5 or higher) formats</li>
-<li>Supports GZipped responses from servers</li>
-<li>This API provides access and basic CRUD operations (create, update, delete) for the resources described below
-
-<ul>
-<li>Attachments</li>
-<li>Custom Fields</li>
-<li>Enumerations<br>
-</li>
-<li>Groups</li>
-<li>Issues<br>
-</li>
-<li>Issue Categories</li>
-<li>Issue Relations</li>
-<li>Issue Statuses</li>
-<li>News(implementation for index only)</li>
-<li>Projects</li>
-<li>Project Memberships</li>
-<li>Queries<br>
-</li>
-<li>Roles</li>
-<li>Time Entries</li>
-<li>Trackers</li>
-<li>Users</li>
-<li>Versions</li>
-<li>Wiki Pages</li>
-</ul>
-</li>
-</ul>
-
-<p><strong>Authentication</strong></p>
-
-<p>Most of the time, the API requires authentication. To enable the API-style authentication, you have to check Enable REST API in Administration -&gt; Settings -&gt; Authentication. Then, authentication can be done in 2 different ways:
-using your regular login/password via HTTP Basic authentication.
-using your API key which is a handy way to avoid putting a password in a script. The API key may be attached to each request in one of the following way:</p>
-
-<ul>
-<li>passed in as a "key" parameter</li>
-<li>passed in as a username with a random password via HTTP Basic authentication</li>
-<li>passed in as a "X-Redmine-API-Key" HTTP header (added in Redmine 1.1.0)
-You can find your API key on your account page ( /my/account ) when logged in, on the right-hand pane of the default layout.</li>
-</ul>
-
-<p><strong>User Impersonation</strong></p>
-
-<p>As of Redmine 2.2.0, you can impersonate user through the REST API by setting the X-Redmine-Switch-User header of your API request. It must be set to a user login (eg. X-Redmine-Switch-User: jsmith). This only works when using the API with an administrator account, this header will be ignored when using the API with a regular user account.</p>
-
-<p>If the login specified with the X-Redmine-Switch-User header does not exist or is not active, you will receive a 412 error response.</p>
-
-<p><br></p>
-
-<h2>
-<a id="licence" class="anchor" href="#licence" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
-
-<p>The API is released under Apache 2 open-source license. You can use it for both personal and commercial purposes, build upon it and modify it.</p>
-      </section>
-
+    [data-bs-theme="dark"] body {
+      background-color: var(--rm-dark-bg);
+      color: var(--rm-dark-text);
+    }
+    [data-bs-theme="dark"] .navbar,
+    [data-bs-theme="dark"] .hero,
+    [data-bs-theme="dark"] footer {
+      background-color: var(--rm-secondary) !important;
+      color: var(--rm-dark-text) !important;
+    }
+    [data-bs-theme="dark"] .card {
+      background-color: #2a2a2a;
+      color: var(--rm-dark-text);
+    }
+    [data-bs-theme="dark"] .btn-primary {
+      background-color: var(--rm-primary);
+      border-color: var(--rm-primary);
+    }
+    [data-bs-theme="dark"] .btn-primary:hover {
+      background-color: #b71c1c;
+      border-color: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <img src="logo.png" alt="Redmine .NET API Logo" height="40" class="me-2">
+        Redmine .NET API
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#getting-started">Getting Started</a></li>
+          <li class="nav-item"><a class="nav-link" href="#news">News</a></li>
+          <li class="nav-item"><a class="nav-link" href="#docs">Docs</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/zapadi/redmine-net-api">GitHub</a></li>
+          <li class="nav-item">
+            <span class="nav-link toggle-theme" onclick="toggleTheme()">🌓</span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero text-center">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Official .NET API for Redmine</h1>
+      <p class="lead">Easily interact with your Redmine instance using C#</p>
+      <a href="https://github.com/zapadi/redmine-net-api" class="btn btn-light btn-lg mt-3">View on GitHub</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center mb-5">Key Features</h2>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h5>Full API Support</h5>
+          <p>Interact with issues, projects, users, and more using a complete REST API wrapper.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Easy Integration</h5>
+          <p>Add to any .NET project via NuGet and start accessing Redmine instantly.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Community Driven</h5>
+          <p>Open-source and maintained by developers for developers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Getting Started -->
+  <section id="getting-started" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">Getting Started</h2>
+      <p class="text-center">Install via NuGet Package Manager:</p>
+      <pre class="bg-dark text-white p-3 rounded text-center">Install-Package Redmine.Net.Api</pre>
+      <p class="text-center">Then start using the RedmineManager class to access the API.</p>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section id="news" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">Latest News</h2>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">v3.0.0 Released!</h5>
+              <p class="card-text">The newest version now supports Redmine 5.x and includes multiple performance and compatibility improvements.</p>
+              <a href="https://github.com/zapadi/redmine-net-api/releases" class="card-link">Read More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">New Docs Portal Coming Soon</h5>
+              <p class="card-text">We’re working on an improved documentation experience with examples and tutorials.</p>
+              <a href="#docs" class="card-link">See Documentation</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documentation Section -->
+  <section id="docs" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">Documentation</h2>
+      <div class="text-center">
+        <p>Browse full API reference and usage examples on GitHub.</p>
+        <a class="btn btn-primary" href="https://github.com/zapadi/redmine-net-api/wiki">View Documentation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 Redmine .NET API. Built with ❤️ for the open source community.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-bs-theme');
+      html.setAttribute('data-bs-theme', currentTheme === 'light' ? 'dark' : 'light');
+    }
+  </script>
+</body>
 </html>
